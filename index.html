@@ -67,6 +67,59 @@
       text-transform: uppercase;
       color: #555;
     }
+
+    .cookie-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #141414;
+      border-top: 1px solid #222;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      z-index: 100;
+    }
+
+    .cookie-banner.hidden {
+      display: none;
+    }
+
+    .cookie-banner p {
+      font-size: 0.8rem;
+      color: #888;
+      line-height: 1.5;
+    }
+
+    .cookie-banner .actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .cookie-banner button {
+      padding: 0.5rem 1.25rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .cookie-banner .btn-accept {
+      background-color: #c0392b;
+      color: #fff;
+    }
+
+    .cookie-banner .btn-decline {
+      background-color: transparent;
+      color: #666;
+      border: 1px solid #333;
+    }
   </style>
 </head>
 <body>
@@ -80,5 +133,57 @@
       <p>Autonomous racing, engineered from the ground up</p>
     </div>
   </main>
+
+  <div id="cookie-banner" class="cookie-banner">
+    <p>We use cookies to analyze site traffic. You can disable tracking at any time.</p>
+    <div class="actions">
+      <button class="btn-decline" onclick="declineCookies()">Decline</button>
+      <button class="btn-accept" onclick="acceptCookies()">Accept</button>
+    </div>
+  </div>
+
+  <script>
+    var GA_ID = 'G-YE98K6PJ1T';
+
+    function loadGA() {
+      var script = document.createElement('script');
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+      script.async = true;
+      document.head.appendChild(script);
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', GA_ID, { anonymize_ip: true });
+    }
+
+    function removeGA() {
+      window['ga-disable-' + GA_ID] = true;
+      var scripts = document.querySelectorAll('script[src*="googletagmanager"]');
+      scripts.forEach(function(s) { s.remove(); });
+      window.dataLayer = [];
+    }
+
+    function acceptCookies() {
+      localStorage.setItem('cookie-consent', 'accepted');
+      document.getElementById('cookie-banner').classList.add('hidden');
+      loadGA();
+    }
+
+    function declineCookies() {
+      localStorage.setItem('cookie-consent', 'declined');
+      document.getElementById('cookie-banner').classList.add('hidden');
+      removeGA();
+    }
+
+    (function() {
+      var consent = localStorage.getItem('cookie-consent');
+      if (consent === 'accepted') {
+        document.getElementById('cookie-banner').classList.add('hidden');
+        loadGA();
+      } else if (consent === 'declined') {
+        document.getElementById('cookie-banner').classList.add('hidden');
+      }
+    })();
+  </script>
 </body>
 </html>
