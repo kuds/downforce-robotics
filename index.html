@@ -10,6 +10,22 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
   <link rel="manifest" href="/favicon_io/site.webmanifest">
   <style>
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      padding: 0.75rem 1.5rem;
+      background-color: #c0392b;
+      color: #fff;
+      font-size: 0.85rem;
+      z-index: 200;
+      text-decoration: none;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
     *,
     *::before,
     *::after {
@@ -70,7 +86,7 @@
       font-size: 0.8rem;
       letter-spacing: 0.25em;
       text-transform: uppercase;
-      color: #555;
+      color: #999;
     }
 
     .cookie-banner {
@@ -120,27 +136,33 @@
       color: #fff;
     }
 
+    .cookie-banner button:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 2px;
+    }
+
     .cookie-banner .btn-decline {
       background-color: transparent;
-      color: #666;
-      border: 1px solid #333;
+      color: #999;
+      border: 1px solid #666;
     }
   </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
   <header>
     <div class="logo">Downforce Robotics</div>
   </header>
-  <main>
+  <main id="main-content">
     <div class="hero">
       <h1>Coming Soon</h1>
-      <div class="accent-line"></div>
+      <div class="accent-line" aria-hidden="true"></div>
       <p>Autonomous racing, engineered from the ground up</p>
     </div>
   </main>
 
-  <div id="cookie-banner" class="cookie-banner">
-    <p>We use cookies to analyze site traffic. You can disable tracking at any time.</p>
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Cookie consent" aria-describedby="cookie-message">
+    <p id="cookie-message">We use cookies to analyze site traffic. You can disable tracking at any time.</p>
     <div class="actions">
       <button class="btn-decline" onclick="declineCookies()">Decline</button>
       <button class="btn-accept" onclick="acceptCookies()">Accept</button>
